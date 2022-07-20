@@ -11,22 +11,10 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
 
-@SpringBootTest // @DataNeo4jTest
-@Testcontainers
-class MovieRepositoryTest {
-
-    @Container
-    private static final Neo4jContainer<?> neo4jContainer = new Neo4jContainer<>("neo4j:4.4");
+class MovieRepositoryTest extends BaseRepositoryTest {
 
     @Autowired
     private MovieRepository repository;
-
-    @DynamicPropertySource
-    static void neo4jProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.neo4j.uri", neo4jContainer::getBoltUrl);
-        registry.add("spring.neo4j.authentication.username", () -> "neo4j");
-        registry.add("spring.neo4j.authentication.password", neo4jContainer::getAdminPassword);
-    }
 
     @Test
     void find_all() {
