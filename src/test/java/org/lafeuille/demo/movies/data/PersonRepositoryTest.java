@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.Neo4jContainer;
@@ -53,6 +55,34 @@ class PersonRepositoryTest {
                 .as(StepVerifier::create)
                 .assertNext(people ->
                         assertThat(people).hasSize(133))
+                .verifyComplete();
+    }
+
+    @Test
+    void find_all_pageable() {
+        var pageRequest = PageRequest.of(0, 5, Sort.by("born", "name"));
+        repository.findBy(pageRequest)
+                .as(StepVerifier::create)
+                .assertNext(person -> {
+                    assertThat(person.name()).isEqualTo("Max von Sydow");
+                    assertThat(person.born()).hasToString("1929");
+                })
+                .assertNext(person -> {
+                    assertThat(person.name()).isEqualTo("Clint Eastwood");
+                    assertThat(person.born()).hasToString("1930");
+                })
+                .assertNext(person -> {
+                    assertThat(person.name()).isEqualTo("Gene Hackman");
+                    assertThat(person.born()).hasToString("1930");
+                })
+                .assertNext(person -> {
+                    assertThat(person.name()).isEqualTo("Richard Harris");
+                    assertThat(person.born()).hasToString("1930");
+                })
+                .assertNext(person -> {
+                    assertThat(person.name()).isEqualTo("Mike Nichols");
+                    assertThat(person.born()).hasToString("1931");
+                })
                 .verifyComplete();
     }
 

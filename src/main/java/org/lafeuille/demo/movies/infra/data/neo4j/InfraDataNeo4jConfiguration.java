@@ -15,8 +15,6 @@ public class InfraDataNeo4jConfiguration {
     ReactiveTransactionManager reactiveTransactionManager(
             Driver driver,
             ReactiveDatabaseSelectionProvider databaseSelectionProvider) {
-        return ReactiveNeo4jTransactionManager.with(driver)
-                .withDatabaseSelectionProvider(databaseSelectionProvider)
-                .build();
+        return new ReactiveNeo4jTransactionManager(driver, databaseSelectionProvider);
     }
 }
