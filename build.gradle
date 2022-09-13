@@ -1,13 +1,19 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.3'
-    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependencies.management)
     id 'org.asciidoctor.convert' version '1.5.8'
     id 'java'
+    id 'jacoco'
 }
 
 group = 'org.lafeuille.demo'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 
 repositories {
     mavenCentral()
@@ -15,7 +21,8 @@ repositories {
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
-    set('testcontainersVersion', "1.17.3")
+    set('springCloudVersion', libs.versions.spring.cloud.get())
+    set('testcontainersVersion', libs.versions.testcontainers.get())
 }
 
 dependencies {
@@ -33,8 +40,15 @@ dependencies {
     testImplementation 'org.testcontainers:neo4j'
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
+    }
+}
+
 dependencyManagement {
     imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
         mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
     }
 }
