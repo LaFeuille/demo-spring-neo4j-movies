@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependencies.management)
-    id 'org.asciidoctor.convert' version '1.5.8'
+    alias(libs.plugins.asciidoctor.convert)
     id 'java'
     id 'jacoco'
 }
