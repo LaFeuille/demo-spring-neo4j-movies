@@ -21,18 +21,19 @@ repositories {
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
-    set('springCloudVersion', libs.versions.spring.cloud.get())
-    set('testcontainersVersion', libs.versions.testcontainers.get())
 }
 
 dependencies {
+    implementation platform(libs.spring.cloud.bom)
+    implementation platform(libs.testcontainers.bom)
+
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.data:spring-data-rest-hal-explorer'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.hateoas:spring-hateoas'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-webtestclient'
@@ -46,12 +47,7 @@ java {
     }
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
-    }
-}
+
 
 tasks.named('test') {
     outputs.dir snippetsDir
