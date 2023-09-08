@@ -5,13 +5,11 @@ dependencyResolutionManagement {
         libs {
             version('asciidoctor-convert', '1.5.8')
             version('java', '17')
-            version('spring-boot', '3.0.2')
-            version('spring-cloud', '2022.0.1')
-            version('spring-dependencies-management', '1.1.0')
-            version('testcontainers', '1.17.6')
+            version('spring-boot', '3.1.3')
+            version('spring-cloud', '2022.0.4')
+            version('spring-dependencies-management', '1.1.3')
 
             library('spring-cloud-bom', 'org.springframework.cloud', 'spring-cloud-dependencies').versionRef('spring-cloud')
-            library('testcontainers-bom', 'org.testcontainers', 'testcontainers-bom').versionRef('testcontainers')
 
             plugin('asciidoctor-convert', 'org.asciidoctor.convert').versionRef('asciidoctor-convert')
             plugin('spring-boot', 'org.springframework.boot').versionRef('spring-boot')

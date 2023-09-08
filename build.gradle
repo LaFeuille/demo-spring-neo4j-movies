@@ -25,7 +25,6 @@ ext {
 
 dependencies {
     implementation platform(libs.spring.cloud.bom)
-    implementation platform(libs.testcontainers.bom)
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
@@ -46,8 +45,6 @@ java {
         languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
     }
 }
-
-
 
 tasks.named('test') {
     outputs.dir snippetsDir
